@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ifsp_inventariado/lista_salas.dart';
-import 'package:ifsp_inventariado/user_page.dart';
+import 'package:ifsp_inventariado/views/lista_salas.dart';
+import 'package:ifsp_inventariado/views/user_page.dart';
 
 class RoutingSystem {
   static Route<dynamic> generateRoute(RouteSettings settings){

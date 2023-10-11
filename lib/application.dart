@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ifsp_inventariado/routing_system.dart';
+import 'package:ifsp_inventariado/utils/routing_system.dart';
 
 class Application extends StatelessWidget {
   const Application({super.key});
