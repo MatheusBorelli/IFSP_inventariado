@@ -35,12 +35,14 @@ class _BarCodePageState extends State<BarCodePage> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 24.0),
                 child: Text(
-                  'Ticket: $ticket',
+                  'Código: $ticket',
                   style: const TextStyle(fontSize: 20),
                 ),
               ),
             ElevatedButton.icon(
-              onPressed: readQRCode,
+              onPressed: () async {
+                  readQRCode();
+                },
               icon: const Icon(Icons.qr_code),
               label: const Text('Validar'),
             ),

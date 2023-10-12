@@ -97,7 +97,7 @@ class _SalasInventarioState extends State<_SalasInventarioWidget>{
         else if(snap.hasError){
           return Text('${snap.error}');
         }
-        return const Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator(color: Colors.green,));
       }
     );
   }

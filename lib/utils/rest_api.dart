@@ -1,10 +1,16 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
+import 'package:retry/retry.dart';
 
 const baseURL = "http://127.0.0.1:8000";
 
 class ClientREST{
   var client = http.Client();
+  
+
 
   Future<dynamic> get( String api ) async {
     var url = Uri(
@@ -14,12 +20,16 @@ class ClientREST{
       port: 8000);
 
     // debugPrint(url.toString());
-
-    var response = await client.get( url );
+    
+    final response = await retry(
+      () => client.get( url ).timeout(const Duration(seconds: 2)),
+      retryIf: (e) => e is SocketException || e is TimeoutException,
+    );
     if(response.statusCode == 200){
       return response.body;
-    }else{
-      throw Exception("Deu ruim");
+    }
+    else{
+      throw Exception("Status Code: ${response.statusCode}");
     }
   }
   
