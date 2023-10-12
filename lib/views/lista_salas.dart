@@ -52,7 +52,7 @@ class _SalasInventarioState extends State<_SalasInventarioWidget>{
     textStyle: const TextStyle(fontSize: 18),
   );
   
-  late Future<List<Salas>> futureSalas; 
+  late Future<List<Sala>> futureSalas; 
 
   @override
   void initState(){
@@ -60,14 +60,14 @@ class _SalasInventarioState extends State<_SalasInventarioWidget>{
     futureSalas = fetchSalasData();
   }
 
-  Future<List<Salas>> fetchSalasData() async {
+  Future<List<Sala>> fetchSalasData() async {
     final salasJson = await ClientREST().get('/test');
     return salasFromJson(salasJson);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Salas>>(future: futureSalas, builder: (context, snap){
+    return FutureBuilder<List<Sala>>(future: futureSalas, builder: (context, snap){
         if(snap.hasData)
         {
           return ListView.builder(

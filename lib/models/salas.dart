@@ -4,18 +4,18 @@
 
 import 'dart:convert';
 
-List<Salas> salasFromJson(String str) => List<Salas>.from(json.decode(str).map((x) => Salas.fromJson(x)));
+List<Sala> salasFromJson(String str) => List<Sala>.from(json.decode(str).map((x) => Sala.fromJson(x)));
 
-String salasToJson(List<Salas> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String salasToJson(List<Sala> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Salas {
+class Sala {
     String nomeSala;
 
-    Salas({
+    Sala({
         required this.nomeSala,
     });
 
-    factory Salas.fromJson(Map<String, dynamic> json) => Salas(
+    factory Sala.fromJson(Map<String, dynamic> json) => Sala(
         nomeSala: json["nome_sala"],
     );
 
