@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:ifsp_inventariado/utils/styles.dart';
 
 class BarCodePage extends StatefulWidget {
   const BarCodePage({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class BarCodePage extends StatefulWidget {
 
 class _BarCodePageState extends State<BarCodePage> {
   String barcode = '';
+  TextEditingController barcodeTextField = TextEditingController(text: "");
   // List<String> tickets = [];
 
   Future readQRCode() async {
@@ -20,33 +23,96 @@ class _BarCodePageState extends State<BarCodePage> {
       false,
       ScanMode.BARCODE,
     );
-    setState(() => barcode = code != '-1' ? code : 'Não validado');
+    setState(() {
+      barcode = code != '-1' ? code : 'Não validado';
+      barcodeTextField.text = barcode;  
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(preferredSize: const Size.fromHeight(70.0),
+        child: AppBar(
+          leading: ModalRoute.of(context)?.canPop == true ? 
+          IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.arrow_back), iconSize: 35,) : null,
+          elevation: 12,
+          toolbarHeight: 70,
+          backgroundColor: greenColor,
+          title: const Text(
+            style: TextStyle(fontSize: 30),
+            'Salas'
+          )
+        )
+      ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (barcode != '')
-              Padding(
-                padding: const EdgeInsets.only(bottom: 24.0),
-                child: Text(
-                  'Código: $barcode',
-                  style: const TextStyle(fontSize: 20),
-                ),
+            SizedBox(
+              height: 80,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
+                child: ElevatedButton.icon(
+                  icon: const Icon(CupertinoIcons.barcode, size: 50, color: Colors.black87,),
+                  label: const Text('Ler Código', style: TextStyle(fontSize: 36, color: Colors.black87)),
+                  onPressed: () async {
+                    readQRCode();
+                  },
+                  style: DefaultButton(const Size(400, 400)),
+                  ),
               ),
-            ElevatedButton.icon(
-              icon: const Icon(CupertinoIcons.barcode, size: 40,),
-              label: const Text('Validar', style: TextStyle(fontSize: 28),),
-              onPressed: () async {
-                readQRCode();
-              },
             ),
+            
+            const SizedBox(height: 40),
+            const Text('OU',style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+            const SizedBox(height: 40),
+            
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30.0),
+              child: TextField(
+                controller: barcodeTextField,
+                autofocus: true,
+                autocorrect: false,
+
+                cursorHeight: 40,
+                cursorWidth: 3,
+                cursorColor: Colors.black87,
+                
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.black87,
+                  fontSize: 32,
+                ),
+                decoration: InputDecoration(
+                  enabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    borderSide: BorderSide(
+                      color: Colors.black87
+                    )
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    borderSide: BorderSide(
+                      color: Colors.green,
+                      width: 3
+                    )
+                  ),
+                  
+                  filled: true,
+                  fillColor: greyColor,
+                  
+                  focusColor: Colors.black87,
+
+                  isDense: true,
+                  
+                  hintText: "Digite o código"
+                ),
+                
+              ),
+            )
           ],
         ),
       ),

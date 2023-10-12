@@ -15,6 +15,7 @@ class ListaSalas extends StatelessWidget {
         child: AppBar(
           leading: ModalRoute.of(context)?.canPop == true ? 
           IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.arrow_back), iconSize: 35,) : null,
+          backgroundColor: greenColor,
           elevation: 12,
           toolbarHeight: 70,
           title: const Text(
@@ -75,7 +76,7 @@ class _SalasInventarioState extends State<_SalasInventarioWidget>{
                     onPressed: () {
                       Navigator.of(context).pushNamed('/bar_reader');
                     },
-                    style: defaultButtonStyle,
+                    style: DefaultButton(null),
                     child: Text(
                       snap.data![index].nomeSala,
                       style: const TextStyle(color: Colors.black87, fontSize: 28),
@@ -89,7 +90,7 @@ class _SalasInventarioState extends State<_SalasInventarioWidget>{
         else if(snap.hasError){
           return Text('${snap.error}');
         }
-        return const Center(child: CircularProgressIndicator(color: Colors.green,));
+        return const Center(child: CircularProgressIndicator(color: greenColor,));
       }
     );
   }

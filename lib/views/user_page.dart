@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ifsp_inventariado/utils/styles.dart';
 
 class UserPage extends StatelessWidget {
-  UserPage({super.key});
+  const UserPage({super.key});
 
   // final defaultButtonStyle = const ButtonStyle(
   //   backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 223, 223, 223)),
@@ -40,15 +40,17 @@ class UserPage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 30),
-                const Text('Inventario'),
+                const Text('Inventario:', style: TextStyle(fontSize: 24),),
                 Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(height: 100),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pushNamed('/salas');
                         },
-                        style: defaultButtonStyle,
+                        style: DefaultButton(null),
                         child: const Text(
                           'Registrar Invetário',
                           style: TextStyle(color: Colors.black87),
@@ -57,10 +59,10 @@ class UserPage extends StatelessWidget {
                       const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: DoNothing,
-                        style: defaultButtonStyle,
+                        style: DefaultButton(null),
                         child: const Text(
                           'Registros',
-                          style: TextStyle(color: Colors.black87, fontSize: 18),
+                          style: TextStyle(color: Colors.black87),
                         )
                       ),
                     ]
