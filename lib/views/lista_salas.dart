@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ifsp_inventariado/models/salas.dart';
+import 'package:ifsp_inventariado/utils/rest_api.dart';
 
 class ListaSalas extends StatelessWidget {
   const ListaSalas({super.key});
@@ -43,35 +45,59 @@ class _SalasInventarioState extends State<_SalasInventarioWidget>{
   
   final defaultButtonStyle = ElevatedButton.styleFrom(
     backgroundColor: Colors.grey.shade300,
-    foregroundColor: const Color.fromARGB(255, 27, 221, 44),
+    foregroundColor: Colors.black,
     elevation: 2,
     fixedSize: const Size(240, 60),
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
     textStyle: const TextStyle(fontSize: 18),
   );
   
+  late Future<List<Salas>> futureSalas; 
+
+  @override
+  void initState(){
+    super.initState();
+    futureSalas = fetchSalasData();
+  }
+
+  Future<List<Salas>> fetchSalasData() async {
+    final salasJson = await ClientREST().get('/test');
+    //print(salasJson.toString());
+    return salasFromJson(salasJson);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: const BouncingScrollPhysics(),
-      itemCount: 12,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
-          child: SizedBox(
-            height: 80,
-            // width: double.maxFinite,
-            child: ElevatedButton(
-              onPressed: () {},
-              style: defaultButtonStyle,
-              child: const Text(
-                'A100',
-                style: TextStyle(color: Colors.black87, fontSize: 28),
-              )
-            )
-          ),
-        );
-      },
+    return FutureBuilder<List<Salas>>(future: futureSalas, builder: (context, snap){
+        if(snap.hasData)
+        {
+          return ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            itemCount: snap.data?.length != null ? snap.data!.length : 0,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
+                child: SizedBox(
+                  height: 80,
+                  // width: double.maxFinite,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: defaultButtonStyle,
+                    child: Text(
+                      snap.data![index].nomeSala,
+                      style: const TextStyle(color: Colors.black87, fontSize: 28),
+                    )
+                  )
+                ),
+              );
+            },
+          );
+        } 
+        else if(snap.hasError){
+          return Text('${snap.error}');
+        }
+        return const CircularProgressIndicator();
+      }
     );
   }
 }
