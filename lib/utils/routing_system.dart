@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:ifsp_inventariado/views/lista_salas.dart';
 import 'package:ifsp_inventariado/views/user_page.dart';
+import 'package:ifsp_inventariado/views/barcode_reader.dart';
 
 class RoutingSystem {
   static Route<dynamic> generateRoute(RouteSettings settings){
@@ -11,6 +13,8 @@ class RoutingSystem {
         return MaterialPageRoute(builder: (_) => UserPage());
       case '/salas':
         return MaterialPageRoute(builder: (_) => const ListaSalas());
+      case '/bar_reader':
+        return MaterialPageRoute(builder: (_) => const BarCodePage());
       default:
         return _errorRoute();
     }

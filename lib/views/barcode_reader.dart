@@ -10,7 +10,7 @@ class BarCodePage extends StatefulWidget {
 
 class _BarCodePageState extends State<BarCodePage> {
   String ticket = '';
-  List<String> tickets = [];
+  // List<String> tickets = [];
 
   Future readQRCode() async {
     String code = await FlutterBarcodeScanner.scanBarcode(

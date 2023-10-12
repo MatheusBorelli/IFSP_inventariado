@@ -81,7 +81,9 @@ class _SalasInventarioState extends State<_SalasInventarioWidget>{
                   height: 80,
                   // width: double.maxFinite,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/bar_reader');
+                    },
                     style: defaultButtonStyle,
                     child: Text(
                       snap.data![index].nomeSala,
