@@ -62,7 +62,6 @@ class _SalasInventarioState extends State<_SalasInventarioWidget>{
 
   Future<List<Salas>> fetchSalasData() async {
     final salasJson = await ClientREST().get('/test');
-    //print(salasJson.toString());
     return salasFromJson(salasJson);
   }
 
@@ -98,7 +97,7 @@ class _SalasInventarioState extends State<_SalasInventarioWidget>{
         else if(snap.hasError){
           return Text('${snap.error}');
         }
-        return const CircularProgressIndicator();
+        return const Center(child: CircularProgressIndicator());
       }
     );
   }
