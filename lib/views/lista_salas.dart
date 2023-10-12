@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ifsp_inventariado/models/salas.dart';
 import 'package:ifsp_inventariado/utils/rest_api.dart';
 
+import 'package:ifsp_inventariado/utils/styles.dart';
+
 class ListaSalas extends StatelessWidget {
   const ListaSalas({super.key});
 
@@ -42,16 +44,6 @@ class _SalasInventarioWidget extends StatefulWidget{
 }
 
 class _SalasInventarioState extends State<_SalasInventarioWidget>{
-  
-  final defaultButtonStyle = ElevatedButton.styleFrom(
-    backgroundColor: Colors.grey.shade300,
-    foregroundColor: Colors.black,
-    elevation: 2,
-    fixedSize: const Size(240, 60),
-    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-    textStyle: const TextStyle(fontSize: 18),
-  );
-  
   late Future<List<Sala>> futureSalas; 
 
   @override

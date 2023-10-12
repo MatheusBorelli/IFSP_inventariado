@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
@@ -9,7 +10,7 @@ class BarCodePage extends StatefulWidget {
 }
 
 class _BarCodePageState extends State<BarCodePage> {
-  String ticket = '';
+  String barcode = '';
   // List<String> tickets = [];
 
   Future readQRCode() async {
@@ -19,7 +20,7 @@ class _BarCodePageState extends State<BarCodePage> {
       false,
       ScanMode.BARCODE,
     );
-    setState(() => ticket = code != '-1' ? code : 'Não validado');
+    setState(() => barcode = code != '-1' ? code : 'Não validado');
   }
 
   @override
@@ -31,20 +32,20 @@ class _BarCodePageState extends State<BarCodePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (ticket != '')
+            if (barcode != '')
               Padding(
                 padding: const EdgeInsets.only(bottom: 24.0),
                 child: Text(
-                  'Código: $ticket',
+                  'Código: $barcode',
                   style: const TextStyle(fontSize: 20),
                 ),
               ),
             ElevatedButton.icon(
+              icon: const Icon(CupertinoIcons.barcode, size: 40,),
+              label: const Text('Validar', style: TextStyle(fontSize: 28),),
               onPressed: () async {
-                  readQRCode();
-                },
-              icon: const Icon(Icons.qr_code),
-              label: const Text('Validar'),
+                readQRCode();
+              },
             ),
           ],
         ),

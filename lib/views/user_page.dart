@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:ifsp_inventariado/utils/styles.dart';
+
 class UserPage extends StatelessWidget {
   UserPage({super.key});
 
   // final defaultButtonStyle = const ButtonStyle(
   //   backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 223, 223, 223)),
   // );
-  final defaultButtonStyle = ElevatedButton.styleFrom(
-    backgroundColor: Colors.grey.shade300,
-    foregroundColor: const Color.fromARGB(255, 27, 221, 44),
-    elevation: 0,
-    fixedSize: const Size(240, 60),
-    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-    textStyle: const TextStyle(fontSize: 18),
-  );
   
   void DoNothing(){}
 
