@@ -21,12 +21,12 @@ class ListaSalas extends StatelessWidget {
           )
         )
       ),
-      floatingActionButton: FloatingActionButton.large(
-        backgroundColor: Colors.green,
-        elevation: 12,
-        child: const Icon(Icons.add),
-        onPressed: () {},
-      ),
+      // floatingActionButton: FloatingActionButton.large(
+      //   backgroundColor: Colors.green,
+      //   elevation: 12,
+      //   child: const Icon(Icons.add),
+      //   onPressed: () {},
+      // ),
       body: const _SalasInventarioWidget(),
     );
   }
