@@ -1,11 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:ifsp_inventariado/utils/styles.dart';
 
+import 'package:ifsp_inventariado/models/item.dart';
+import 'package:ifsp_inventariado/models/salas.dart';
+
 class BarCodePage extends StatefulWidget {
-  const BarCodePage({Key? key}) : super(key: key);
+  final Sala data;
+
+  const BarCodePage({Key? key, required this.data}) : super(key: key);
 
   @override
   State<BarCodePage> createState() => _BarCodePageState();
@@ -14,7 +19,6 @@ class BarCodePage extends StatefulWidget {
 class _BarCodePageState extends State<BarCodePage> {
   String barcode = '';
   TextEditingController barcodeTextField = TextEditingController(text: "");
-  // List<String> tickets = [];
 
   Future readQRCode() async {
     String code = await FlutterBarcodeScanner.scanBarcode(
@@ -66,9 +70,9 @@ class _BarCodePageState extends State<BarCodePage> {
               ),
             ),
             
-            const SizedBox(height: 40),
+            const SizedBox(height: 30),
             const Text('OU',style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-            const SizedBox(height: 40),
+            const SizedBox(height: 30),
             
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30.0),
@@ -110,11 +114,41 @@ class _BarCodePageState extends State<BarCodePage> {
                   
                   hintText: "Digite o código"
                 ),
-                
               ),
-            )
+            ),
+            //////////////// Probably deprecated
+            // IconButton(
+            //   onPressed: (){}, 
+              
+            //   icon: const Icon(
+            //     CupertinoIcons.check_mark, 
+            //     size: 60,
+            //   ),
+            //   style: ElevatedButton.styleFrom(
+            //       backgroundColor: greenColor,
+            //       foregroundColor: Colors.white,
+            //       elevation: 0,
+            //       fixedSize: const Size(80,80),
+            //       shape: const CircleBorder(),
+            //       textStyle: const TextStyle(fontSize: 24),
+            //     ),
+            // )
           ],
         ),
+      ),
+       floatingActionButton: FloatingActionButton.large(
+        backgroundColor: greenColor,
+        shape: const CircleBorder(),
+        elevation: 8,
+        child: const Icon(Icons.check_sharp, size: 60,),
+        onPressed: () {
+          barcode = barcodeTextField.text;
+          Navigator.of(context).pushNamed(
+            '/itemdetail', 
+            arguments: Item(
+              sala: widget.data,
+              itemBarcode: barcode));
+        },
       ),
     );
   }

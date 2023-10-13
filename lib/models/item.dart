@@ -16,7 +16,7 @@ class Item {
 
     Item({
         required this.sala,
-        required this.itemNome,
+        this.itemNome = '',
         required this.itemBarcode,
     });
 
