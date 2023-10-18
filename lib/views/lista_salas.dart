@@ -36,7 +36,7 @@ class ListaSalas extends StatelessWidget {
 }
 
 class _SalasInventarioWidget extends StatefulWidget{
-  const _SalasInventarioWidget({super.key});
+  const _SalasInventarioWidget({Key? key}): super(key: key);
 
   @override
   State<_SalasInventarioWidget> createState() {
@@ -54,7 +54,7 @@ class _SalasInventarioState extends State<_SalasInventarioWidget>{
   }
 
   Future<List<Sala>> fetchSalasData() async {
-    final salasJson = await ClientREST().get('/test');
+    final salasJson = await ClientREST().get('/salas');
     return salasFromJson(salasJson);
   }
 

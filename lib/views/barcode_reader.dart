@@ -28,7 +28,7 @@ class _BarCodePageState extends State<BarCodePage> {
       ScanMode.BARCODE,
     );
     setState(() {
-      barcode = code != '-1' ? code : 'Não validado';
+      barcode = code != '-1' ? code : '';
       barcodeTextField.text = barcode;  
     });
   }
@@ -136,7 +136,7 @@ class _BarCodePageState extends State<BarCodePage> {
           ],
         ),
       ),
-       floatingActionButton: FloatingActionButton.large(
+       floatingActionButton: FloatingActionButton(
         backgroundColor: greenColor,
         shape: const CircleBorder(),
         elevation: 8,

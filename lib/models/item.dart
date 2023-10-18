@@ -5,9 +5,13 @@
 import 'dart:convert';
 import 'package:ifsp_inventariado/models/salas.dart';
 
-List<Item> itemFromJson(String str) => List<Item>.from(json.decode(str).map((x) => Item.fromJson(x)));
+List<Item> itemListFromJson(String str) => List<Item>.from(json.decode(str).map((x) => Item.fromJson(x)));
 
-String itemToJson(List<Item> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String itemListToJson(List<Item> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+Item itemFromJson(String str) => Item.fromJson(json.decode(str));
+
+String itemToJson(Item data) => json.encode(data.toJson());
 
 class Item {
     final Sala sala;
