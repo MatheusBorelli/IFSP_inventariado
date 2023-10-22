@@ -2,20 +2,15 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dotenv/dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:retry/retry.dart';
+import 'package:ifsp_inventariado/utils/config.dart';
 
 class ClientREST{
   var client = http.Client();
-  
-  String getBaseURL(){
-    final env = DotEnv(includePlatformEnvironment: true)..load();
-    return env.getOrElse("API_URL", () => "");
-  }
 
   Future<dynamic> get( String api ) async {
-    var url = Uri.parse( getBaseURL() + api );
+    var url = Uri.parse( Config.baseURL + api );
   
     final response = await retry(
       () => client.get( url ).timeout(const Duration(seconds: 2)),
@@ -31,7 +26,7 @@ class ClientREST{
   }
   
   Future<dynamic> post( String api , dynamic object ) async{
-    var url = Uri.parse( getBaseURL() + api );
+    var url = Uri.parse( Config.baseURL + api );
     var _payload = json.encode(object);
 
     final response = await retry(
