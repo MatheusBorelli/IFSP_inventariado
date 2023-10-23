@@ -3,7 +3,7 @@
 //     final item = itemFromJson(jsonString);
 
 import 'dart:convert';
-import 'package:ifsp_inventariado/models/salas.dart';
+//import 'package:ifsp_inventariado/models/salas.dart';
 
 List<Item> itemListFromJson(String str) => List<Item>.from(json.decode(str).map((x) => Item.fromJson(x)));
 
@@ -14,7 +14,8 @@ Item itemFromJson(String str) => Item.fromJson(json.decode(str));
 String itemToJson(Item data) => json.encode(data.toJson());
 
 class Item {
-    final Sala sala;
+    // final Sala sala;
+    final String sala;
     final String itemNome;
     final String itemBarcode;
 
@@ -24,15 +25,27 @@ class Item {
         required this.itemBarcode,
     });
 
+    // factory Item.fromJson(Map<String, dynamic> json) => Item(
+    //     sala: Sala.fromJson(json["room"]),
+    //     itemNome: json["name"],
+    //     itemBarcode: json["barcode"],
+    // );
+
+    // Map<String, dynamic> toJson() => {
+    //     "room": sala.toJson(),
+    //     "name": itemNome,
+    //     "barcode": itemBarcode,
+    // };
+    
     factory Item.fromJson(Map<String, dynamic> json) => Item(
-        sala: Sala.fromJson(json["sala"]),
-        itemNome: json["itemNome"],
-        itemBarcode: json["itemBarcode"],
+        sala: json["room"],
+        itemNome: json["name"],
+        itemBarcode: json["barcode"],
     );
 
     Map<String, dynamic> toJson() => {
-        "sala": sala.toJson(),
-        "itemNome": itemNome,
-        "itemBarcode": itemBarcode,
+        "room": sala,
+        "name": itemNome,
+        "barcode": itemBarcode,
     };
 }

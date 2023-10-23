@@ -116,23 +116,6 @@ class _BarCodePageState extends State<BarCodePage> {
                 ),
               ),
             ),
-            //////////////// Probably deprecated
-            // IconButton(
-            //   onPressed: (){}, 
-              
-            //   icon: const Icon(
-            //     CupertinoIcons.check_mark, 
-            //     size: 60,
-            //   ),
-            //   style: ElevatedButton.styleFrom(
-            //       backgroundColor: greenColor,
-            //       foregroundColor: Colors.white,
-            //       elevation: 0,
-            //       fixedSize: const Size(80,80),
-            //       shape: const CircleBorder(),
-            //       textStyle: const TextStyle(fontSize: 24),
-            //     ),
-            // )
           ],
         ),
       ),
@@ -146,7 +129,7 @@ class _BarCodePageState extends State<BarCodePage> {
           Navigator.of(context).pushNamed(
             '/itemdetail', 
             arguments: Item(
-              sala: widget.data,
+              sala: widget.data.nomeSala,
               itemBarcode: barcode));
         },
       ),

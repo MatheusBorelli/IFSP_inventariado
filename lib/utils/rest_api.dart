@@ -16,7 +16,7 @@ class ClientREST{
       () => client.get( url ).timeout(const Duration(seconds: 2)),
       retryIf: (e) => e is SocketException || e is TimeoutException,
     );
-
+    
     if(response.statusCode == 200){
       return response.body;
     }

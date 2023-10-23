@@ -55,6 +55,7 @@ class _SalasInventarioState extends State<_SalasInventarioWidget>{
 
   Future<List<Sala>> fetchSalasData() async {
     final salasJson = await ClientREST().get('/salas');
+    print(salasFromJson(salasJson));
     return salasFromJson(salasJson);
   }
 

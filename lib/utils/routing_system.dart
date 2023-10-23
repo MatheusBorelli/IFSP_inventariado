@@ -41,8 +41,14 @@ class RoutingSystem {
     return MaterialPageRoute(builder: (_) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text("Error"),
+          leading: ModalRoute.of(_)?.canPop == true ? 
+          IconButton(onPressed: () => Navigator.of(_).popUntil(ModalRoute.withName('/')), icon: const Icon(Icons.arrow_back), iconSize: 35,) : null,
+          toolbarHeight: 70,
           centerTitle: true,
+          title: const Text(
+            style: TextStyle(fontSize: 30),
+            'Error'
+          )
         ),
         body: Center(
           child: Text(args.toString())
