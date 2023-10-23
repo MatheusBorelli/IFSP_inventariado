@@ -123,7 +123,7 @@ class _BarCodePageState extends State<BarCodePage> {
         backgroundColor: greenColor,
         shape: const CircleBorder(),
         elevation: 8,
-        child: const Icon(Icons.check_sharp, size: 60,),
+        child: const Icon(Icons.check_sharp, size: 50,),
         onPressed: () {
           barcode = barcodeTextField.text;
           Navigator.of(context).pushNamed(
