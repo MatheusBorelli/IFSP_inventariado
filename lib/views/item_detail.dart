@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ifsp_inventariado/models/item.dart';
-import 'package:ifsp_inventariado/utils/styles.dart';
 
+import 'package:ifsp_inventariado/models/item.dart';
+
+import 'package:ifsp_inventariado/utils/styles.dart';
 import 'package:ifsp_inventariado/utils/rest_api.dart';
 
 class ItemDetail extends StatelessWidget{
@@ -55,11 +56,12 @@ class _ItemDetailState extends State<_ItemDetail>{
   Future<dynamic> fetchItemData() async {
     // final Item itemJson;
     final data = await ClientREST().get('/item/${widget.itemData.itemBarcode}');
-    if(data is Item){
+    if(!data.toString().contains("Erro")){
+      final item = itemFromJson(data.toString());
       setState(() {
-        nameTextField.text = data.itemNome;
+        nameTextField.text = item.itemNome;
       });
-      return itemFromJson(data.toString()); 
+      return item; 
     }
     return data.toString();
   }
@@ -90,7 +92,7 @@ class _ItemDetailState extends State<_ItemDetail>{
         children: [
           const SizedBox(height: 10),
           const Padding(
-            padding: EdgeInsets.only(left: 10.0),
+            padding: EdgeInsets.only(left: 10.0, bottom: 30),
             child: Text(
               "Registrar Item:",
               textAlign: TextAlign.left,
@@ -102,7 +104,7 @@ class _ItemDetailState extends State<_ItemDetail>{
         
           Row(children: [
             const SizedBox(
-              width: 150,
+              width: 160,
               child: Padding(
                 padding: EdgeInsets.only(left: 8.0),
                 child: Text(
@@ -116,39 +118,33 @@ class _ItemDetailState extends State<_ItemDetail>{
                 padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8),
                 child: TextField(
                     enabled: false,
-                    controller: nameTextField,
+                    
+                    textAlign: TextAlign.center,
                     decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      borderSide: BorderSide(
-                        color: Colors.black87
+                      disabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        borderSide: BorderSide(
+                          color: Colors.black87
+                        )
+                      ),
+                      filled: true,
+                      fillColor: greyColor,
+                      focusColor: Colors.black87,        
+                      isDense: true,
+                      hintText: snap.data.itemNome,
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade600,
                       )
                     ),
-                    focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      borderSide: BorderSide(
-                        color: Colors.green,
-                        width: 3
-                      )
-                    ),
-                    
-                    filled: true,
-                    fillColor: greyColor,
-                    
-                    focusColor: Colors.black87,
-                
-                    isDense: true,
-                    
-                    hintText: itemFromJson(snap.data.toString()).itemNome,
                   ),
                 ),
-              ),
-            )
-          ]),
+              )
+            ]
+          ),
           
           Row(children: [  
             const SizedBox(
-              width: 150,
+              width: 160,
               child: Padding(
                 padding: EdgeInsets.only(left: 8.0),
                 child: Text(
@@ -163,46 +159,36 @@ class _ItemDetailState extends State<_ItemDetail>{
                 padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8),
                 child: TextField(
                   enabled: false,
-                  decoration: InputDecoration(
-                  enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    borderSide: BorderSide(
-                      color: Colors.black87
-                    )
+                  textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      disabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        borderSide: BorderSide(
+                          color: Colors.black87
+                        )
+                      ),
+                      filled: true,
+                      fillColor: greyColor,
+                      focusColor: Colors.black87,        
+                      isDense: true,
+                      hintText: snap.data.itemBarcode,
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade600,
+                      )
+                    ),
                   ),
-                  focusedBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    borderSide: BorderSide(
-                      color: Colors.green,
-                      width: 3
-                    )
-                  ),
-                  
-                  filled: true,
-                  fillColor: greyColor,
-                  
-                  focusColor: Colors.black87,
-                            
-                  isDense: true,
-                  
-                  
-                  hintText: widget.itemData.itemBarcode,),
                 ),
-              ),
-            )
-          ]),
+              )
+            ]
+          ),
           
-          //SizedBox(height: 30),
-          
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
+          Row(mainAxisSize: MainAxisSize.max, children: [
               const SizedBox(
-                width: 150,
+                width: 160,
                 child: Padding(
                   padding: EdgeInsets.only(left: 8.0),
                   child: Text(
-                    "Sala:",
+                    "Sala do item:",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 18
@@ -215,9 +201,144 @@ class _ItemDetailState extends State<_ItemDetail>{
                   padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8),
                   child: TextField(
                     enabled: false, 
+                    textAlign: TextAlign.center,
                     decoration: InputDecoration(
+                      disabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        borderSide: BorderSide(
+                          color: Colors.black87
+                        )
+                      ),
+                      filled: true,
+                      fillColor: greyColor,
+                      focusColor: Colors.black87,        
+                      isDense: true,
+                      hintText: snap.data.sala,
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade600,
+                      )
+                    ),
+                  ),
+                ),
+              )
+            ]),
+
+          Row(mainAxisSize: MainAxisSize.max, children: [
+              const SizedBox(
+                width: 160,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    "Sala do registro:",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 18
+                    ),
+                    ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8),
+                  child: TextField(
+                    enabled: false, 
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      disabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        borderSide: BorderSide(
+                          color: Colors.black87
+                        )
+                      ),
+                      filled: true,
+                      fillColor: greyColor,
+                      focusColor: Colors.black87,        
+                      isDense: true,
+                      hintText: widget.itemData.sala,
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade600,
+                      )
+                    ),
+                  ),
+                ),
+              )
+            ]),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: greenColor,
+        shape: const CircleBorder(),
+        elevation: 8,
+        child: const Icon(Icons.check_sharp, size: 50,),
+        onPressed: () async {
+          final response = await ClientREST().post(
+            '/add_register/', 
+            Item(
+              itemNome: snap.data!.itemNome,
+              itemBarcode: widget.itemData.itemBarcode,
+              sala: widget.itemData.sala,)
+          );
+          if(!context.mounted) return;
+          if( response == 201 || response == 200 ){
+            Navigator.of(context).pushNamed(
+              '/itemregister',
+              arguments: snap.data.itemBarcode
+            );
+          }
+          else{
+            Navigator.of(context).pushNamed( 
+              "/error/${response}",
+              arguments: "Status Code: ${response}");
+          }
+        },
+      ),
+    );
+  }
+
+  Scaffold _addItem() {
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 10),
+          const Padding(
+            padding: EdgeInsets.only(left: 10.0, bottom: 30),
+            child: Text(
+              "Adicionar Item:",
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 24
+              )
+              ),
+          ),
+        
+          Row(children: [
+            const SizedBox(
+              width: 160,
+              child: Padding(
+                padding: EdgeInsets.only(left: 8.0),
+                child: Text(
+                  "Nome do item:",
+                  style: TextStyle(fontSize: 18)
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8),
+                child: TextField(
+                    enabled: true,
+                    controller: nameTextField,
+                    autofocus: true,
+
+                    cursorColor: Colors.black87,
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                    
                       enabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
                         borderSide: BorderSide(
                           color: Colors.black87
                         )
@@ -234,11 +355,92 @@ class _ItemDetailState extends State<_ItemDetail>{
                       fillColor: greyColor,
                       
                       focusColor: Colors.black87,
-                                
+                  
                       isDense: true,
                       
-                      
+                      hintText: widget.itemData.itemNome,
+                  ),
+                ),
+              ),
+            )
+          ]),
+          
+          Row(children: [  
+            const SizedBox(
+              width: 160,
+              child: Padding(
+                padding: EdgeInsets.only(left: 8.0),
+                child: Text(
+                  "Código:",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 18)
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8),
+                child: TextField(
+                    enabled: false,
+                    textAlign: TextAlign.center,
+
+                    decoration: InputDecoration(
+                      disabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        borderSide: BorderSide(
+                          color: Colors.black87
+                        )
+                      ),
+                      filled: true,
+                      fillColor: greyColor,
+                      focusColor: Colors.black87,        
+                      isDense: true,
+                      hintText: widget.itemData.itemBarcode,
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade600,
+                      )
+                    ),
+                  ),
+                ),
+              )
+            ]
+          ),
+          
+          Row(mainAxisSize: MainAxisSize.max, children: [
+              const SizedBox(
+                width: 160,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    "Sala do item:",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 18
+                    ),
+                    ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8),
+                  child: TextField(
+                    enabled: false,
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      disabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        borderSide: BorderSide(
+                          color: Colors.black87
+                        )
+                      ),
+                      filled: true,
+                      fillColor: greyColor,
+                      focusColor: Colors.black87,
+                      isDense: true,
                       hintText: widget.itemData.sala,
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade600,
+                      )
                     ),
                   ),
                 ),
@@ -246,62 +448,48 @@ class _ItemDetailState extends State<_ItemDetail>{
             ]),
         ],
       ),
+
       floatingActionButton: FloatingActionButton(
         backgroundColor: greenColor,
         shape: const CircleBorder(),
         elevation: 8,
         child: const Icon(Icons.check_sharp, size: 50,),
-        onPressed: () {
-          Navigator.of(context).pushNamed(
-            '/itemregister',
-            arguments: snap.data.barcode);
+        onPressed: () async {
+          final createResponse = await ClientREST().post(
+            '/add_item/', 
+            Item(
+              itemNome: nameTextField.text,
+              itemBarcode: widget.itemData.itemBarcode,
+              sala: widget.itemData.sala,)
+          );
+          if(!context.mounted) return;
+          if( createResponse == 201 || createResponse == 200 ){
+            final registerResponse = await ClientREST().post(
+              '/add_register/', 
+              Item(
+                itemNome: nameTextField.text,
+                itemBarcode: widget.itemData.itemBarcode,
+                sala: widget.itemData.sala,));
+            if(!context.mounted) return;
+            if( registerResponse == 201 || registerResponse == 200){
+              Navigator.of(context).pushNamed(
+                '/itemregister',
+                arguments: widget.itemData.itemBarcode
+              );
+            }
+            else{
+              Navigator.of(context).pushNamed( 
+              "/error/$registerResponse",
+              arguments: "Status Code: $registerResponse");
+            }
+          }
+          else{
+            Navigator.of(context).pushNamed( 
+              "/error/$createResponse",
+              arguments: "Status Code: $createResponse");
+          }
         },
       ),
     );
-  }
-
-  Column _addItem() {
-    return const Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Padding(
-        padding: EdgeInsets.only(left: 10.0),
-        child: Text("Registrar Item:", textAlign: TextAlign.left,),
-      ),
-      Row(children: [
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(left: 8.0),
-            child: Text("Nome do item:"),
-          ),
-        ),
-        Expanded(
-          child: TextField(enabled: true, decoration: InputDecoration(
-            hintText: "",
-          ),),
-        )
-      ]),
-      
-      // Row(children: [
-      //   const Padding(
-      //     padding: EdgeInsets.only(left: 8.0),
-      //     child: Text("Código:"),
-      //   ),
-      //   TextField(enabled: false, decoration: InputDecoration(
-      //     hintText: widgetData.itemBarcode,
-      //   ),)
-      // ]),
-
-      // Row(children: [
-      //   const Padding(
-      //     padding: EdgeInsets.only(left: 8.0),
-      //     child: Text("Sala:"),
-      //   ),
-      //   TextField(enabled: false, decoration: InputDecoration(
-      //     hintText: widgetData.sala,
-      //   ),)
-      // ]),
-    ],
-  );
   }
 }

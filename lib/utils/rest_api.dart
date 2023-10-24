@@ -35,7 +35,7 @@ class ClientREST{
     );
 
     if(response.statusCode == 201 || response.statusCode == 200){
-      return response.body;
+      return response.statusCode;
     } else {
       throw Exception();
     }

@@ -10,6 +10,11 @@ class Application extends StatelessWidget {
       title: 'Inventariado IFSP',
       // To-do: Create dark theme
       theme: ThemeData(
+        textSelectionTheme: TextSelectionThemeData(
+          // cursorColor: Colors.grey,
+          selectionColor: const Color.fromARGB(255, 27, 221, 44),
+          selectionHandleColor: Colors.grey.shade400,
+        ),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,

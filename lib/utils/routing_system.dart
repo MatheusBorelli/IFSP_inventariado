@@ -24,12 +24,17 @@ class RoutingSystem {
         }
 
         return _errorRoute();
+        
       case '/itemdetail':
         //Must implement
         if(args is Item){
           return MaterialPageRoute(builder: (_) => ItemDetail(data: args));  
         }
         
+        return _errorRoute(args: args);
+
+      case '/itemregister':
+
         return _errorRoute(args: args);
 
       default:
@@ -42,7 +47,7 @@ class RoutingSystem {
       return Scaffold(
         appBar: AppBar(
           leading: ModalRoute.of(_)?.canPop == true ? 
-          IconButton(onPressed: () => Navigator.of(_).popUntil(ModalRoute.withName('/')), icon: const Icon(Icons.arrow_back), iconSize: 35,) : null,
+          IconButton(onPressed: () => Navigator.of(_).popAndPushNamed("/"), icon: const Icon(Icons.home_outlined), iconSize: 35,) : null,
           toolbarHeight: 70,
           centerTitle: true,
           title: const Text(

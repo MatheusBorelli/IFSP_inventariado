@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final item = itemFromJson(jsonString);
-
 import 'dart:convert';
 //import 'package:ifsp_inventariado/models/salas.dart';
 
@@ -44,8 +40,8 @@ class Item {
     );
 
     Map<String, dynamic> toJson() => {
-        "room": sala,
         "name": itemNome,
         "barcode": itemBarcode,
+        "room": sala,
     };
 }
