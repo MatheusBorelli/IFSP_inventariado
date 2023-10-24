@@ -287,8 +287,8 @@ class _ItemDetailState extends State<_ItemDetail>{
           }
           else{
             Navigator.of(context).pushNamed( 
-              "/error/${response}",
-              arguments: "Status Code: ${response}");
+              "/error/$response",
+              arguments: "Status Code: $response");
           }
         },
       ),

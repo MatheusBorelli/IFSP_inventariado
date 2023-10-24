@@ -9,7 +9,7 @@ class UserPage extends StatelessWidget {
   //   backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 223, 223, 223)),
   // );
   
-  void DoNothing(){}
+  void doNothing(){}
 
   @override
   Widget build(context){
@@ -58,7 +58,7 @@ class UserPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: DoNothing,
+                        onPressed: doNothing,
                         style: DefaultButton(null),
                         child: const Text(
                           'Registros',
