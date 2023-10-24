@@ -44,19 +44,22 @@ class RoutingSystem {
 
   static Route<dynamic> _errorRoute({args}){
     return MaterialPageRoute(builder: (_) {
-      return Scaffold(
-        appBar: AppBar(
-          leading: ModalRoute.of(_)?.canPop == true ? 
-          IconButton(onPressed: () => Navigator.of(_).popAndPushNamed("/"), icon: const Icon(Icons.home_outlined), iconSize: 35,) : null,
-          toolbarHeight: 70,
-          centerTitle: true,
-          title: const Text(
-            style: TextStyle(fontSize: 30),
-            'Error'
-          )
-        ),
-        body: Center(
-          child: Text(args.toString())
+      return WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+          appBar: AppBar(
+            leading: ModalRoute.of(_)?.canPop == true ? 
+            IconButton(onPressed: () => Navigator.of(_).popUntil(((route) => route.isFirst)), icon: const Icon(Icons.home_outlined), iconSize: 35,) : null,
+            toolbarHeight: 70,
+            centerTitle: true,
+            title: const Text(
+              style: TextStyle(fontSize: 30),
+              'Error'
+            )
+          ),
+          body: Center(
+            child: Text(args.toString())
+          ),
         ),
       );
     });

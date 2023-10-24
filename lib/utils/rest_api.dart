@@ -10,10 +10,13 @@ class ClientREST{
   var client = http.Client();
 
   Future<dynamic> get( String api ) async {
-    var url = Uri.parse( Config.baseURL + api );
-  
+    var url = Uri.parse( Config.baseURL + api ); 
+    final _headers = {
+      'Accept': 'application/json',
+      'ngrok-skip-browser-warning':'true',
+    };
     final response = await retry(
-      () => client.get( url ).timeout(const Duration(seconds: 2)),
+      () => client.get( url , headers: _headers ).timeout(const Duration(seconds: 2)),
       retryIf: (e) => e is SocketException || e is TimeoutException,
     );
     
@@ -28,9 +31,12 @@ class ClientREST{
   Future<dynamic> post( String api , dynamic object ) async{
     var url = Uri.parse( Config.baseURL + api );
     var _payload = json.encode(object);
-
+    final _headers = {
+      'Accept': 'application/json',
+      'ngrok-skip-browser-warning':'true',
+    };
     final response = await retry(
-      () => client.post( url , body: _payload).timeout(const Duration(seconds: 2)),
+      () => client.post( url , body: _payload, headers: _headers).timeout(const Duration(seconds: 2)),
       retryIf: (e) => e is SocketException || e is TimeoutException,
     );
 
