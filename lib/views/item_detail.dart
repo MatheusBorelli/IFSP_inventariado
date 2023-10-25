@@ -45,7 +45,7 @@ class _ItemDetail extends StatefulWidget{
 
 class _ItemDetailState extends State<_ItemDetail>{
   late Future<dynamic> futureItem;
-
+  bool _clickable = true;
   TextEditingController nameTextField = TextEditingController(text: ""); 
 
   @override
@@ -85,7 +85,6 @@ class _ItemDetailState extends State<_ItemDetail>{
   }
 
   Scaffold _registerItem(AsyncSnapshot<dynamic> snap) {
-    bool _visible = true;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -267,42 +266,40 @@ class _ItemDetailState extends State<_ItemDetail>{
             ]),
         ],
       ),
-      floatingActionButton: Visibility(
-        visible: _visible,
-        child: FloatingActionButton(
-          backgroundColor: greenColor,
-          shape: const CircleBorder(),
-          elevation: 8,
-          onPressed: () async {
-            setState(() => _visible = false);
-            final response = await ClientREST().post(
-              '/add_register/', 
-              Item(
-                itemNome: snap.data!.itemNome,
-                itemBarcode: widget.itemData.itemBarcode,
-                sala: widget.itemData.sala,)
-            );
-            if(!context.mounted) return;
-            if( response == 201 || response == 200 ){
-              Navigator.of(context).pushNamed(
-                '/itemregister',
-                arguments: snap.data.itemBarcode
-              );
-            }
-            else{
-              Navigator.of(context).pushNamed( 
-                "/error/$response",
-                arguments: "Status Code: $response");
-            }
-          },
-          child: const Icon(Icons.check_sharp, size: 50,),
-        ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: greenColor,
+        shape: const CircleBorder(),
+        elevation: 8,
+        onPressed: _clickable ? () => registerButton(snap) : null,
+        child: const Icon(Icons.check_sharp, size: 50,),
       ),
     );
   }
 
+  void registerButton(AsyncSnapshot<dynamic> snap) async {
+    setState(() => _clickable = false);
+    final response = await ClientREST().post(
+      '/add_register/',
+      Item(
+        itemNome: snap.data!.itemNome,
+        itemBarcode: widget.itemData.itemBarcode,
+        sala: widget.itemData.sala,)
+    );
+    if(!context.mounted) return;
+    if( response == 201 || response == 200 ){
+      Navigator.of(context).pushNamed(
+        '/itemregister',
+        arguments: snap.data.itemBarcode
+      );
+    }
+    else{
+      Navigator.of(context).pushNamed( 
+        "/error/$response",
+        arguments: "Status Code: $response");
+    }
+  }
+
   Scaffold _addItem() {
-    bool _visible = true;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -456,50 +453,52 @@ class _ItemDetailState extends State<_ItemDetail>{
         ],
       ),
 
-      floatingActionButton: Visibility(
-        visible: _visible,
-        child: FloatingActionButton(
-          backgroundColor: greenColor,
-          shape: const CircleBorder(),
-          elevation: 8,
-          onPressed: () async {
-            final createResponse = await ClientREST().post(
-              '/add_item/', 
-              Item(
-                itemNome: nameTextField.text,
-                itemBarcode: widget.itemData.itemBarcode,
-                sala: widget.itemData.sala,)
-            );
-            if(!context.mounted) return;
-            if( createResponse == 201 || createResponse == 200 ){
-              final registerResponse = await ClientREST().post(
-                '/add_register/', 
-                Item(
-                  itemNome: nameTextField.text,
-                  itemBarcode: widget.itemData.itemBarcode,
-                  sala: widget.itemData.sala,));
-              if(!context.mounted) return;
-              if( registerResponse == 201 || registerResponse == 200){
-                Navigator.of(context).pushNamed(
-                  '/itemregister',
-                  arguments: widget.itemData.itemBarcode
-                );
-              }
-              else{
-                Navigator.of(context).pushNamed( 
-                "/error/$registerResponse",
-                arguments: "Status Code: $registerResponse");
-              }
-            }
-            else{
-              Navigator.of(context).pushNamed( 
-                "/error/$createResponse",
-                arguments: "Status Code: $createResponse");
-            }
-          },
-          child: const Icon(Icons.check_sharp, size: 50,),
-        ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: greenColor,
+        shape: const CircleBorder(),
+        elevation: 8,
+        onPressed: _clickable ? checkButton : null,
+        child: const Icon(Icons.check_sharp, size: 50,),
       ),
     );
   }
+
+  void checkButton() async {
+          setState(() {
+            _clickable = false;
+          });
+          final createResponse = await ClientREST().post(
+            '/add_item/', 
+            Item(
+              itemNome: nameTextField.text,
+              itemBarcode: widget.itemData.itemBarcode,
+              sala: widget.itemData.sala,)
+          );
+          if(!context.mounted) return;
+          if( createResponse == 201 || createResponse == 200 ){
+            final registerResponse = await ClientREST().post(
+              '/add_register/', 
+              Item(
+                itemNome: nameTextField.text,
+                itemBarcode: widget.itemData.itemBarcode,
+                sala: widget.itemData.sala,));
+            if(!context.mounted) return;
+            if( registerResponse == 201 || registerResponse == 200){
+              Navigator.of(context).pushNamed(
+                '/itemregister',
+                arguments: widget.itemData.itemBarcode
+              );
+            }
+            else{
+              Navigator.of(context).pushNamed( 
+              "/error/$registerResponse",
+              arguments: "Status Code: $registerResponse");
+            }
+          }
+          else{
+            Navigator.of(context).pushNamed( 
+              "/error/$createResponse",
+              arguments: "Status Code: $createResponse");
+          }
+        }
 }
