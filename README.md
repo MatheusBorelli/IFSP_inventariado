@@ -15,6 +15,10 @@ Para garantir que as dependências estejam no Projeto é necessario executar o s
 ```
     flutter pub get
 ```
+Para funcionamento correto da aplicação deve se criar um arquivo **.env** na raíz do projeto, dentro dele deve se ter a chave **API_URL**, a qual será responsável por ser a URL base para o contato com o server. O arquivo **.env** deverá ficar como no exemplo:
+```
+    API_URL=https://url-da-api/
+```
 
 Por fim podemos executar o seguinte comando para fazer a build de um apk do projeto:
 ```
