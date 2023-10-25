@@ -19,6 +19,7 @@ class ItemDetail extends StatelessWidget{
           IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.arrow_back), iconSize: 35,) : null,
           backgroundColor: greenColor,
           elevation: 12,
+          centerTitle: true,
           toolbarHeight: 70,
           title: const Text(
             style: TextStyle(fontSize: 30),
@@ -84,6 +85,7 @@ class _ItemDetailState extends State<_ItemDetail>{
   }
 
   Scaffold _registerItem(AsyncSnapshot<dynamic> snap) {
+    bool _visible = true;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -265,37 +267,42 @@ class _ItemDetailState extends State<_ItemDetail>{
             ]),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: greenColor,
-        shape: const CircleBorder(),
-        elevation: 8,
-        child: const Icon(Icons.check_sharp, size: 50,),
-        onPressed: () async {
-          final response = await ClientREST().post(
-            '/add_register/', 
-            Item(
-              itemNome: snap.data!.itemNome,
-              itemBarcode: widget.itemData.itemBarcode,
-              sala: widget.itemData.sala,)
-          );
-          if(!context.mounted) return;
-          if( response == 201 || response == 200 ){
-            Navigator.of(context).pushNamed(
-              '/itemregister',
-              arguments: snap.data.itemBarcode
+      floatingActionButton: Visibility(
+        visible: _visible,
+        child: FloatingActionButton(
+          backgroundColor: greenColor,
+          shape: const CircleBorder(),
+          elevation: 8,
+          onPressed: () async {
+            setState(() => _visible = false);
+            final response = await ClientREST().post(
+              '/add_register/', 
+              Item(
+                itemNome: snap.data!.itemNome,
+                itemBarcode: widget.itemData.itemBarcode,
+                sala: widget.itemData.sala,)
             );
-          }
-          else{
-            Navigator.of(context).pushNamed( 
-              "/error/$response",
-              arguments: "Status Code: $response");
-          }
-        },
+            if(!context.mounted) return;
+            if( response == 201 || response == 200 ){
+              Navigator.of(context).pushNamed(
+                '/itemregister',
+                arguments: snap.data.itemBarcode
+              );
+            }
+            else{
+              Navigator.of(context).pushNamed( 
+                "/error/$response",
+                arguments: "Status Code: $response");
+            }
+          },
+          child: const Icon(Icons.check_sharp, size: 50,),
+        ),
       ),
     );
   }
 
   Scaffold _addItem() {
+    bool _visible = true;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -449,46 +456,49 @@ class _ItemDetailState extends State<_ItemDetail>{
         ],
       ),
 
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: greenColor,
-        shape: const CircleBorder(),
-        elevation: 8,
-        child: const Icon(Icons.check_sharp, size: 50,),
-        onPressed: () async {
-          final createResponse = await ClientREST().post(
-            '/add_item/', 
-            Item(
-              itemNome: nameTextField.text,
-              itemBarcode: widget.itemData.itemBarcode,
-              sala: widget.itemData.sala,)
-          );
-          if(!context.mounted) return;
-          if( createResponse == 201 || createResponse == 200 ){
-            final registerResponse = await ClientREST().post(
-              '/add_register/', 
+      floatingActionButton: Visibility(
+        visible: _visible,
+        child: FloatingActionButton(
+          backgroundColor: greenColor,
+          shape: const CircleBorder(),
+          elevation: 8,
+          onPressed: () async {
+            final createResponse = await ClientREST().post(
+              '/add_item/', 
               Item(
                 itemNome: nameTextField.text,
                 itemBarcode: widget.itemData.itemBarcode,
-                sala: widget.itemData.sala,));
+                sala: widget.itemData.sala,)
+            );
             if(!context.mounted) return;
-            if( registerResponse == 201 || registerResponse == 200){
-              Navigator.of(context).pushNamed(
-                '/itemregister',
-                arguments: widget.itemData.itemBarcode
-              );
+            if( createResponse == 201 || createResponse == 200 ){
+              final registerResponse = await ClientREST().post(
+                '/add_register/', 
+                Item(
+                  itemNome: nameTextField.text,
+                  itemBarcode: widget.itemData.itemBarcode,
+                  sala: widget.itemData.sala,));
+              if(!context.mounted) return;
+              if( registerResponse == 201 || registerResponse == 200){
+                Navigator.of(context).pushNamed(
+                  '/itemregister',
+                  arguments: widget.itemData.itemBarcode
+                );
+              }
+              else{
+                Navigator.of(context).pushNamed( 
+                "/error/$registerResponse",
+                arguments: "Status Code: $registerResponse");
+              }
             }
             else{
               Navigator.of(context).pushNamed( 
-              "/error/$registerResponse",
-              arguments: "Status Code: $registerResponse");
+                "/error/$createResponse",
+                arguments: "Status Code: $createResponse");
             }
-          }
-          else{
-            Navigator.of(context).pushNamed( 
-              "/error/$createResponse",
-              arguments: "Status Code: $createResponse");
-          }
-        },
+          },
+          child: const Icon(Icons.check_sharp, size: 50,),
+        ),
       ),
     );
   }

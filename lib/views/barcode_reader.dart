@@ -9,9 +9,10 @@ import 'package:ifsp_inventariado/models/salas.dart';
 
 class BarCodePage extends StatefulWidget {
   final Sala data;
+  final String _nextRoute;
+  final (bool, bool)? nextRouteArgument;
 
-  const BarCodePage({Key? key, required this.data}) : super(key: key);
-
+  const BarCodePage({super.key, required this.data, String nextRoute = '/itemdetail', this.nextRouteArgument}) : _nextRoute = nextRoute;
   @override
   State<BarCodePage> createState() => _BarCodePageState();
 }
@@ -127,10 +128,17 @@ class _BarCodePageState extends State<BarCodePage> {
         onPressed: () {
           barcode = barcodeTextField.text;
           Navigator.of(context).pushNamed(
-            '/itemdetail', 
-            arguments: Item(
+            widget._nextRoute, 
+            arguments: widget.nextRouteArgument == null ? Item(
               sala: widget.data.nomeSala,
-              itemBarcode: barcode));
+              itemBarcode: barcode
+            ) : 
+            (
+              barcode,
+              widget.nextRouteArgument!.$1,
+              widget.nextRouteArgument!.$2
+            )
+          );
         },
       ),
     );

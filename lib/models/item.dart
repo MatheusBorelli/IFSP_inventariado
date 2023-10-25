@@ -1,5 +1,4 @@
 import 'dart:convert';
-//import 'package:ifsp_inventariado/models/salas.dart';
 
 List<Item> itemListFromJson(String str) => List<Item>.from(json.decode(str).map((x) => Item.fromJson(x)));
 
@@ -11,14 +10,14 @@ String itemToJson(Item data) => json.encode(data.toJson());
 
 class Item {
     // final Sala sala;
-    final String sala;
     final String itemNome;
     final String itemBarcode;
+    final String sala;
 
     Item({
-        required this.sala,
         this.itemNome = '',
         required this.itemBarcode,
+        required this.sala,
     });
 
     // factory Item.fromJson(Map<String, dynamic> json) => Item(

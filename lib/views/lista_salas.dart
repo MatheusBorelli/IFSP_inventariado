@@ -5,7 +5,10 @@ import 'package:ifsp_inventariado/utils/rest_api.dart';
 import 'package:ifsp_inventariado/utils/styles.dart';
 
 class ListaSalas extends StatelessWidget {
-  const ListaSalas({super.key});
+  final String _nextRoute;
+  final (bool , bool)? nextRouteArgument;
+
+  const ListaSalas({super.key, String nextRoute = '/barreader', this.nextRouteArgument}) : _nextRoute = nextRoute;
 
   @override
   Widget build(context){
@@ -17,6 +20,7 @@ class ListaSalas extends StatelessWidget {
           IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.arrow_back), iconSize: 35,) : null,
           backgroundColor: greenColor,
           elevation: 12,
+          centerTitle: true,
           toolbarHeight: 70,
           title: const Text(
             style: TextStyle(fontSize: 30),
@@ -24,19 +28,16 @@ class ListaSalas extends StatelessWidget {
           )
         )
       ),
-      // floatingActionButton: FloatingActionButton.large(
-      //   backgroundColor: Colors.green,
-      //   elevation: 12,
-      //   child: const Icon(Icons.add),
-      //   onPressed: () {},
-      // ),
-      body: const _SalasInventarioWidget(),
+      body: _SalasInventarioWidget(nextRoute: _nextRoute, nextRouteArgument: nextRouteArgument),
     );
   }
 }
 
 class _SalasInventarioWidget extends StatefulWidget{
-  const _SalasInventarioWidget({Key? key}): super(key: key);
+  final String nextRoute;
+  final (bool, bool)? nextRouteArgument;
+  
+  const _SalasInventarioWidget({super.key , this.nextRoute = '/barreader', this.nextRouteArgument});
 
   @override
   State<_SalasInventarioWidget> createState() {
@@ -55,7 +56,6 @@ class _SalasInventarioState extends State<_SalasInventarioWidget>{
 
   Future<List<Sala>> fetchSalasData() async {
     final salasJson = await ClientREST().get('/salas');
-    //print(salasFromJson(salasJson));
     return salasFromJson(salasJson);
   }
 
@@ -75,7 +75,15 @@ class _SalasInventarioState extends State<_SalasInventarioWidget>{
                   // width: double.maxFinite,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/barreader' , arguments: snap.data![index]);
+                      Navigator.of(context).pushNamed( widget.nextRoute , 
+                      arguments: widget.nextRouteArgument == null ?
+                        snap.data![index] : 
+                        (
+                          snap.data![index].nomeSala,
+                          widget.nextRouteArgument!.$1,
+                          widget.nextRouteArgument!.$2,
+                        )
+                      );
                     },
                     style: DefaultButton(null),
                     child: Text(

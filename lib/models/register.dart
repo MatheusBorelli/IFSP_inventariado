@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'package:ifsp_inventariado/models/item.dart';
 
+List<Registro> registerListFromJson(String str) => List<Registro>.from(json.decode(str).map((x) => Registro.fromJson(x)));
+
+String registerListToJson(List<Registro> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
 Registro registerFromJson(String str) => Registro.fromJson(json.decode(str));
 
 String registerToJson(Registro data) => json.encode(data.toJson());
@@ -32,12 +36,12 @@ class Registro {
     factory Registro.fromJson(Map<String, dynamic> json) => Registro(
         item: Item.fromJson(json["item"]),
         salaRegistro: json["room"],
-        data: json["data"]
+        data: json["date"]
     );
 
     Map<String, dynamic> toJson() => {
         "item": item.toJson(),
         "room": salaRegistro,
-        "data": data,
+        "date": data,
     };
 }

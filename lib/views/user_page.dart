@@ -58,7 +58,10 @@ class UserPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: doNothing,
+                        onPressed: () {
+                          // Navigator.of(context).pushNamed('/itemregister', arguments: ("A101",false,true));
+                          Navigator.of(context).pushNamed('/registros');
+                        },
                         style: DefaultButton(null),
                         child: const Text(
                           'Registros',

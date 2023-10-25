@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final salas = salasFromJson(jsonString);
-
 import 'dart:convert';
 
 List<Sala> salasFromJson(String str) => List<Sala>.from(json.decode(str).map((x) => Sala.fromJson(x)));
