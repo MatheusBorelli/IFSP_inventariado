@@ -75,27 +75,22 @@ class _ProductRegisterWidget extends StatefulWidget{
 }
 
 class _ProductRegisterState extends State<_ProductRegisterWidget>{
-  late Future<List<Registro>> futureRegisters; 
+  late Future<dynamic> futureRegisters; 
 
   @override
   void initState() {
     super.initState();
-    if(widget.itemOrRoomSearch == false) { futureRegisters = fetchRegisterDatabyCode(); }
-    else { futureRegisters = fetchRegisterDatabyRoom(); }
+    futureRegisters = fetchRegisterData();
   }
 
-  Future<List<Registro>> fetchRegisterDatabyCode() async {
-    final registroJson = await ClientREST().get('/product_register/${widget.dataToFetchRegister}');
-    final listRegisters = registerListFromJson(registroJson);
-    listRegisters.sort(((a, b) => 
-      DateTime.parse(b.data).compareTo(DateTime.parse(a.data))
-    ));
-    return listRegisters;
-  }
+  Future<dynamic> fetchRegisterData() async {
+    final String getApiRoute = widget.itemOrRoomSearch ? '/room_register' : '/product_register'; 
 
-  Future<List<Registro>> fetchRegisterDatabyRoom() async {
-    final registroJson = await ClientREST().get('/room_register/${widget.dataToFetchRegister}');
-    final listRegisters = registerListFromJson(registroJson);
+    final dataRegisterJson = await ClientREST().get('$getApiRoute/${widget.dataToFetchRegister}');
+    
+    if(dataRegisterJson.toString().contains('Erro')) return dataRegisterJson.toString();
+    
+    final listRegisters = registerListFromJson(dataRegisterJson);
     listRegisters.sort(((a, b) => 
       DateTime.parse(b.data).compareTo(DateTime.parse(a.data))
     ));
@@ -104,9 +99,12 @@ class _ProductRegisterState extends State<_ProductRegisterWidget>{
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Registro>>(future: futureRegisters, builder: (context, snap){
+    return FutureBuilder<dynamic>(future: futureRegisters, builder: (context, snap){
         if(snap.hasData)
         {
+          if(snap.data.toString().contains("Erro")){ 
+            return const ErrorWidget();
+          }
           return ListView.builder(
             physics: const BouncingScrollPhysics(),
             itemCount: snap.data?.length ?? 0,
@@ -134,7 +132,7 @@ class _ProductRegisterState extends State<_ProductRegisterWidget>{
                         style: const TextStyle(color: Colors.black87, fontSize: 14),
                       ),
                       Text(
-                        "Registrado em ${DateFormat('dd/MM/yyyy').format(DateTime.parse(snap.data![index].data))}",
+                        "Registrado em ${DateFormat('dd/MM/yyyy - hh:mm').format(DateTime.parse(snap.data![index].data))}",
                         style: const TextStyle(color: Colors.black87, fontSize: 14),
                       ),
                     ],
@@ -149,6 +147,27 @@ class _ProductRegisterState extends State<_ProductRegisterWidget>{
         }
         return const Center(child: CircularProgressIndicator(color: greenColor,));
       }
+    );
+  }
+}
+
+class ErrorWidget extends StatelessWidget {
+  const ErrorWidget({
+    super.key,
+  });
+
+  @override
+  Container build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      child: const Text(
+        "O Item ou sala não foi encontrado ou não há registros",
+        style: TextStyle(
+          fontSize: 18,
+          color: Colors.black87,
+        ),
+      ),
     );
   }
 }
