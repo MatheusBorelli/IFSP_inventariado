@@ -1,6 +1,6 @@
 # IFSP Inventariado
 
-O objetivo com esse programa era facilitar o processo de registrar o inventario do IFSP campus Salto, de tal maneira, os integrantes decidiram por criar uma aplicação em Flutter no Frontend e python no Backend, sendo ele disponível Nesse [link](https://github.com/GabrielFS1/inventario_server). Esse projeto foi realizado como prática de aula de PJI, além de ser apresentado no IFCiência.
+O objetivo com esse programa era facilitar o processo de registrar o inventario do IFSP campus Salto, de tal maneira, os integrantes decidiram por criar uma aplicação em Flutter no Frontend e python no Backend, sendo possível acessar neste [link](https://github.com/GabrielFS1/inventario_server). Esse projeto foi realizado como prática de aula de PJI, além de ser apresentado no IFCiência.
 
 ## Como Compilar
 
