@@ -16,6 +16,7 @@ class RegisterSelection extends StatelessWidget {
           leading: ModalRoute.of(context)?.canPop == true ? 
           IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.arrow_back), iconSize: 35,) : null,
           elevation: 12,
+          centerTitle: true,
           toolbarHeight: 70,
           backgroundColor: greenColor,
           title: const Text(

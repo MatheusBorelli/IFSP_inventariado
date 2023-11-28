@@ -42,11 +42,12 @@ class _BarCodePageState extends State<BarCodePage> {
           leading: ModalRoute.of(context)?.canPop == true ? 
           IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.arrow_back), iconSize: 35,) : null,
           elevation: 12,
+          centerTitle: true,
           toolbarHeight: 70,
           backgroundColor: greenColor,
           title: const Text(
             style: TextStyle(fontSize: 30),
-            'Salas'
+            'Ler Código'
           )
         )
       ),
